@@ -1,0 +1,80 @@
+# The ingestion allowlist. Only documents listed here are published.
+# class: operator_policy | user_knowledge   load: always | on_demand | app
+
+[[documents]]
+name = "scope_charter"
+class = "operator_policy"
+load = "always"
+file = "source/scope_charter.md"
+
+[[documents]]
+name = "persona_voice"
+class = "operator_policy"
+load = "always"
+file = "source/persona_voice.md"
+
+[[documents]]
+name = "do_no_harm_core"
+class = "operator_policy"
+load = "always"
+file = "source/policy/do_no_harm_core.md"
+
+[[documents]]
+name = "policy_allergens_food_safety"
+class = "operator_policy"
+load = "on_demand"
+file = "source/policy/policy_allergens_food_safety.md"
+
+[[documents]]
+name = "policy_dietary_medical_claims"
+class = "operator_policy"
+load = "on_demand"
+file = "source/policy/policy_dietary_medical_claims.md"
+
+[[documents]]
+name = "policy_child_safety"
+class = "operator_policy"
+load = "on_demand"
+file = "source/policy/policy_child_safety.md"
+
+[[documents]]
+name = "policy_product_misuse"
+class = "operator_policy"
+load = "on_demand"
+file = "source/policy/policy_product_misuse.md"
+
+[[documents]]
+name = "policy_crisis"
+class = "operator_policy"
+load = "on_demand"
+file = "source/policy/policy_crisis.md"
+
+[[documents]]
+name = "referral_faq"
+class = "user_knowledge"
+load = "always"
+file = "source/canonical_stubs/referral_faq.md"
+
+[[documents]]
+name = "program_rules"
+class = "user_knowledge"
+load = "always"
+file = "source/canonical_stubs/program_rules.md"
+
+[[documents]]
+name = "product_knowledge"
+class = "user_knowledge"
+load = "always"
+file = "source/canonical_stubs/product_knowledge.md"
+
+[[documents]]
+name = "greeting"
+class = "operator_policy"
+load = "app"
+file = "source/greeting.md"
+
+[[documents]]
+name = "compaction_summary_template"
+class = "operator_policy"
+load = "app"
+file = "source/compaction_summary_template.md"

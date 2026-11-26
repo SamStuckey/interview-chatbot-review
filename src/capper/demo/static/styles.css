@@ -1,0 +1,74 @@
+/* Styled after the Carton Caps mockups: a phone-width chat with rounded bubbles and card carousels. */
+:root {
+  --brand: #1f6f5c;
+  --brand-dark: #154e41;
+  --bubble-bot: #f1f4f3;
+  --bubble-user: #1f6f5c;
+  --text: #1c2321;
+  --muted: #6b7672;
+  --line: #e1e6e4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #dfe7e4; }
+.phone {
+  max-width: 420px; height: 100vh; margin: 0 auto; background: #fff;
+  display: flex; flex-direction: column;
+}
+.bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid var(--line); background: var(--brand); color: #fff;
+}
+.title { font-weight: 600; }
+.link { background: none; border: none; color: #fff; text-decoration: underline; cursor: pointer; }
+.link:disabled { opacity: 0.5; cursor: default; }
+.sign-in { padding: 16px; overflow-y: auto; }
+.sign-in h1 { font-size: 1.2rem; margin: 0 0 4px; }
+.hint { color: var(--muted); font-size: 0.85rem; margin: 0 0 12px; }
+.users { list-style: none; margin: 0; padding: 0; }
+.users button {
+  width: 100%; text-align: left; padding: 10px 12px; margin-bottom: 6px;
+  border: 1px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer;
+}
+.users button:hover { border-color: var(--brand); }
+.users small { display: block; color: var(--muted); }
+.chat { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.day { align-self: center; color: var(--muted); font-size: 0.75rem; margin: 6px 0; }
+.bubble {
+  max-width: 85%; padding: 9px 12px; border-radius: 16px; line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.bubble p, .bubble ul, .bubble ol, .bubble h3, .bubble h4 { margin: 0 0 6px; }
+.bubble > :last-child { margin-bottom: 0; }
+.bubble ul, .bubble ol { padding-left: 20px; }
+.bot { align-self: flex-start; background: var(--bubble-bot); border-bottom-left-radius: 4px; }
+.user { align-self: flex-end; background: var(--bubble-user); color: #fff; border-bottom-right-radius: 4px; }
+.typing { color: var(--muted); font-style: italic; }
+.status { align-self: flex-start; color: var(--muted); font-size: 0.75rem; }
+.cards { align-self: stretch; }
+.cards h4 { margin: 4px 0; font-size: 0.9rem; }
+.carousel { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.card {
+  flex: 0 0 140px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff;
+}
+.card img { width: 100%; height: 90px; object-fit: cover; background: var(--bubble-bot); display: block; }
+.card .body { padding: 6px 8px; font-size: 0.8rem; }
+.card .name { font-weight: 600; }
+.card .meta { color: var(--muted); }
+.feedback { align-self: flex-start; display: flex; gap: 4px; }
+.feedback button {
+  border: 1px solid var(--line); background: #fff; border-radius: 12px; cursor: pointer; padding: 2px 8px;
+}
+.feedback button.chosen { border-color: var(--brand); background: #e4f1ed; }
+.composer { display: flex; gap: 8px; padding: 10px; border-top: 1px solid var(--line); }
+.composer textarea {
+  flex: 1; resize: none; border: 1px solid var(--line); border-radius: 18px; padding: 9px 12px;
+  font: inherit; max-height: 120px;
+}
+.composer button {
+  width: 40px; border: none; border-radius: 50%; background: var(--brand); color: #fff;
+  font-size: 1rem; cursor: pointer;
+}
+.composer button.stop { background: #b3412f; }

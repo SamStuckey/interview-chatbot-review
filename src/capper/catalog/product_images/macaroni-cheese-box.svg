@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="Macaroni &amp; Cheese Box">
+  <rect width="320" height="240" fill="#e8f3ef"/>
+  <rect x="16" y="16" width="288" height="208" rx="18" fill="none" stroke="#1f6f5c" stroke-opacity="0.25" stroke-width="2"/>
+  <text font-family="-apple-system, Segoe UI, Roboto, sans-serif" font-size="24" font-weight="600" fill="#1f6f5c" text-anchor="middle" dominant-baseline="middle"><tspan x="160" y="104">Macaroni &amp;</tspan><tspan x="160" y="136">Cheese Box</tspan></text>
+  <text x="160" y="204" font-family="-apple-system, Segoe UI, Roboto, sans-serif" font-size="12" fill="#1f6f5c" fill-opacity="0.7" text-anchor="middle">Carton Caps</text>
+</svg>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capper demo</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="phone">
+    <header class="bar">
+      <span class="title">Personal Assistant</span>
+      <button id="sign-out" class="link" hidden>Switch user</button>
+    </header>
+
+    <section id="sign-in" class="sign-in">
+      <h1>Choose a user</h1>
+      <p class="hint">
+        Demo sign-in: this list stands in for the Carton Caps login, which the app's
+        auth service handles in production.
+      </p>
+      <ul id="users" class="users"></ul>
+    </section>
+
+    <section id="chat" class="chat" hidden>
+      <div id="messages" class="messages" aria-live="polite"></div>
+      <form id="composer" class="composer">
+        <textarea id="input" rows="1" maxlength="8000" placeholder="Ask Capper…" required></textarea>
+        <button id="send" type="submit" aria-label="Send">➤</button>
+      </form>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

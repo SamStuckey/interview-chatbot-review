@@ -1,0 +1,60 @@
+# Capper, fully Dockerized. First run: copy .env.example to .env, set the
+# two required values, then `docker compose up --build`. Reset: `docker compose down -v`.
+name: capper
+
+x-capper-image: &capper-image
+  build:
+    context: .
+    target: runtime
+    args:
+      GIT_SHA: ${GIT_SHA:-}
+  image: capper:local
+  env_file: .env
+  volumes:
+    - capper-data:/app/data
+
+services:
+  # Runs once per `up`: keys, the supplied database, migrations, seed data, content.
+  init:
+    <<: *capper-image
+    command: ["python", "-m", "scripts.bootstrap"]
+
+  capper:
+    <<: *capper-image
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      traces:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz', timeout=2)"
+      interval: 10s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+
+  traces:
+    image: jaegertracing/jaeger:2.11.0
+    # Capper sends traces over the Compose network (OTLP HTTP on 4318); only the UI is published.
+    ports:
+      - "16686:16686"
+
+  # Specs, checks and evals: `docker compose run --rm dev pytest` (and see the README).
+  dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      target: dev
+    image: capper-dev:local
+    env_file: .env
+    volumes:
+      - capper-data:/app/data
+
+volumes:
+  capper-data:
