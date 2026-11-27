@@ -102,7 +102,85 @@ way, and items move onto this list only once Sam approves them.
 20. **Tooling and running:** uv, `pyproject.toml` and `uv.lock`; Docker
     Compose, the data volume, rebuilds, and Compose project names.
 
-## E. Covered in the study guide (refresher quiz only)
+## E. Production shortcuts (discuss, and fix where useful)
+
+Places where Capper takes a demo shortcut a production service wouldn't.
+Each is a likely interview topic: be ready to say what the shortcut is, why
+it's fine for the demo, and what production would do instead. ★ marks
+shortcuts that aren't written up anywhere in the docs, so there's no
+prepared defense for them yet.
+
+**Identity and secrets**
+
+21. ★ **The API service holds the private signing key.** `create_app` loads
+    it for the demo token issuer. A service that only verifies tokens should
+    hold just the public key; the private key belongs to the auth service.
+22. ★ **`/demo/users` lists every user's name and school with no login.**
+    Personal data exposed to anyone, on top of the sign-in bypass. The demo
+    routes are always on, with no setting to turn them off.
+23. ★ **The public key is read once at startup from a file.** No key IDs
+    (`kid`) and no fetching of the auth service's published keys (JWKS), so
+    rotating the key needs a restart.
+24. **Secrets live in `.env`**, not a secrets manager, and the cache-key
+    secret is never rotated.
+25. ★ **`/docs` and `/openapi.json` are public** (FastAPI's default).
+
+**Data ownership and the database**
+
+26. ★ **Capper's migration changes and deletes tables in the client's
+    database.** It adds columns to `Users` and `Products` and drops
+    `Conversation_History`. A service shouldn't migrate another system's
+    tables.
+27. ★ **The `init` service seeds demo data and copies the fixture database
+    on every start.** Demo data is part of the deployment path.
+28. **SQLite: one writer at a time, and no backups.** ★ WAL mode, which lets
+    reads continue during a write, isn't enabled.
+
+**Running more than one instance, and shutdown**
+
+29. ★ **Startup marks every in-progress turn in the database as failed.**
+    With two instances, or during a rolling deploy, a new instance kills
+    turns still running on the old one.
+30. ★ **Shutdown waits up to the 60-second turn timeout, but Docker's default
+    stop grace period is 10 seconds** (`stop_grace_period` isn't set).
+    Containers are killed mid-turn, and those turns become errors on the
+    next start.
+31. **Stop tokens, turn tasks and event queues live in process memory**, so
+    a Stop request that reaches another instance does nothing.
+32. ★ **A single uvicorn worker, with host and port hardcoded** in
+    `__main__.py`.
+
+**Assets and content**
+
+33. ★ **Product images ship inside the app image and are served by the
+    app.** A new image needs a rebuild, and `image_url` is derived from the
+    product's name, so renaming a product breaks its image. Production
+    would use object storage plus a CDN, with the URL stored as data.
+34. **Publishing content means rebuilding the `init` image**: no admin
+    path, review step or rollback.
+
+**Operations and observability**
+
+35. ★ **Plain-text logs with no request IDs**, so a log line can't be tied
+    to its trace.
+36. **The health check only tests the database**: no liveness/readiness
+    split, and no check that the model provider answers.
+37. **Jaeger stores traces in memory**, and its UI has no login.
+38. **Only OpenAI is wired up, with no failover.** ★ Model prices are
+    hardcoded defaults, and the eval judge model is a constant in code.
+
+**API surface**
+
+39. ★ **Unhandled exceptions return Starlette's plain-text 500**, not the
+    JSON error envelope the API contract promises.
+40. ★ **No request body size limit.** Message length is checked only after
+    the whole JSON body has been read.
+41. **No rate limits or spending caps** (task 7 covers part of this).
+42. **Some limits are hardcoded rather than settings:** page sizes, the
+    200-character idempotency key, the comment length, the 10-item card
+    maximum.
+
+## F. Covered in the study guide (refresher quiz only)
 
 Evaluators · async/coroutines · `with` / `async with` · stateless JWT
 verification · Ruff · Pyright · async SQLAlchemy sessions
